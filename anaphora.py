@@ -2,6 +2,7 @@ import nltk
 
 prp_thing = {"IT"}
 prp_third_person = {"HE", "HIM", "SHE", "HER", "THEY", "THEM"}
+punctuation = {".", "!", "?"}
 
 def anaphora(text):
 	return simple_anaphora(text)
@@ -11,7 +12,7 @@ def anaphora(text):
 # Makes the naive assumption that each personal pronoun (PRP-tag) is referring to the most recent named entity.
 def simple_anaphora(text):
 	text_sent   = nltk.sent_tokenize(text)
-	text_sentence_tokens = []
+	text_sentences = []
 
 	most_recent_person = None
 	most_recent_thing  = None
@@ -19,6 +20,8 @@ def simple_anaphora(text):
 		text_tokens = nltk.word_tokenize(sentence)
 		text_tagged = nltk.pos_tag(text_tokens)
 		text_ne = nltk.ne_chunk(text_tagged, False)
+
+		words_in_sentence = []
 		for i in range(0, len(text_ne)):
 			word = text_ne[i]
 			if is_person(word):
@@ -28,16 +31,16 @@ def simple_anaphora(text):
 			else:
 				anaphor = is_anaphor(word)
 				if anaphor == None:
-					text_sentence_tokens.append(str(text_tokens[i]))
+					words_in_sentence.append(str(text_tokens[i]))
 					continue
 				if most_recent_person != None and anaphor == "PERSON":
 					text_tokens[i] = most_recent_person[0]
 				elif most_recent_thing != None and anaphor == "THING":
 					text_tokens[i] = most_recent_thing[0]
+			words_in_sentence.append(str(text_tokens[i]))
+		text_sentences.append(words_in_sentence)
 
-			text_sentence_tokens.append(str(text_tokens[i]))
-
-	return text_sentence_tokens
+	return text_sentences
 
 def is_person(word):
 	try:
