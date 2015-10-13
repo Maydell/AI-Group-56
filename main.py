@@ -18,10 +18,11 @@ text = f.read()
 
 # Call anaphora resolution
 text = anaphora.anaphora(text)
+pos_tags = map(nltk.pos_tag, text)
 
-print text
+print pos_tags
 
 cp = nltk.RegexpParser(fact_grammar)
-result = cp.parse(tokenized)
+result = cp.parse(text)
 print result
 result.draw()
