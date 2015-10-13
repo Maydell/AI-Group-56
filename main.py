@@ -3,7 +3,7 @@ import nltk
 import anaphora
 
 fact_grammar = """
-    FACT1: {<NN.*><VB.*><JJ.*>}
+    FACT1: {<NN.*><VB.*><JJ.*>(<CC>?<JJ.*>)}
     """
 
 if len(sys.argv) < 2:
@@ -25,5 +25,4 @@ pos_tags = map(nltk.pos_tag, text)
 cp = nltk.RegexpParser(fact_grammar)
 for sentence in pos_tags:
     result = cp.parse(sentence)
-    result.draw()
     print result
