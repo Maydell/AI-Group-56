@@ -2,6 +2,7 @@ import nltk
 
 prp_thing = {"IT"}
 prp_third_person = {"HE", "HIM", "SHE", "HER", "THEY", "THEM"}
+prp_third_person_possessive = {"HIS", "HERS", "THEIRS"}
 punctuation = {".", "!", "?"}
 
 def anaphora(text):
@@ -24,19 +25,28 @@ def simple_anaphora(text):
 		words_in_sentence = []
 		for i in range(0, len(text_ne)):
 			word = text_ne[i]
+			print("Word: " + str(word))
 			if is_person(word):
 				most_recent_person = word[0]
 			elif is_thing(word):
 				most_recent_thing = word[0]
 			else:
 				anaphor = is_anaphor(word)
-				if anaphor == None:
-					words_in_sentence.append(str(text_tokens[i]))
-					continue
-				if most_recent_person != None and anaphor == "PERSON":
-					text_tokens[i] = most_recent_person[0]
-				elif most_recent_thing != None and anaphor == "THING":
-					text_tokens[i] = most_recent_thing[0]
+				if anaphor != None:
+					if most_recent_person != None:
+						if anaphor == "PERSON":
+							print("Appending: " + str(most_recent_person[0]))
+							words_in_sentence.append(most_recent_person[0])
+							continue
+						elif anaphor == "PERSON$":
+							print("Appending: " + str(most_recent_person[0]))
+							words_in_sentence.append(most_recent_person[0])
+							words_in_sentence.append("'")
+							words_in_sentence.append("s")
+							continue
+					elif most_recent_thing != None and anaphor == "THING":
+						words_in_sentence.append(most_recent_thing[0])
+						continue
 			words_in_sentence.append(str(text_tokens[i]))
 		text_sentences.append(words_in_sentence)
 
@@ -65,6 +75,9 @@ def is_anaphor(word):
 				return "THING"
 			elif word[0].upper() in prp_third_person:
 				return "PERSON"
+		elif word[1] == "PRP$":
+			if word[0].upper() in prp_third_person_possessive:
+				return "PERSON$"
 	except AttributeError:
 		return None
 	return None
