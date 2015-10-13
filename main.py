@@ -12,9 +12,9 @@ if len(sys.argv) < 2:
 
 # Read the filename
 filename = sys.argv[1]
-file object = open(filename, "r")
+f = open(filename, "r")
 
-text = object.read()
+text = f.read()
 
 # Call anaphora resolution
 text = anaphora.anaphora(text)
