@@ -20,9 +20,10 @@ text = f.read()
 text = anaphora.anaphora(text)
 pos_tags = map(nltk.pos_tag, text)
 
-print pos_tags
+# print pos_tags
 
 cp = nltk.RegexpParser(fact_grammar)
 for sentence in pos_tags:
-	result = cp.parse(sentence)
-	print result
+    result = cp.parse(sentence)
+    result.draw()
+    print result
