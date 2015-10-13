@@ -3,8 +3,7 @@ import nltk
 import anaphora
 
 fact_grammar = """
-    FACT1: {<NN.*>(was)<VB.*>}
-    FACT2: {<NN.*><VB.*>}
+    FACT1: {<NN.*><VB.*><JJ.*>}
     """
 
 if len(sys.argv) < 2:
