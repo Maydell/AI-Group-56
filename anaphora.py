@@ -25,7 +25,6 @@ def simple_anaphora(text):
 		words_in_sentence = []
 		for i in range(0, len(text_ne)):
 			word = text_ne[i]
-			print("Word: " + str(word))
 			if is_person(word):
 				most_recent_person = word[0]
 			elif is_thing(word):
@@ -35,11 +34,9 @@ def simple_anaphora(text):
 				if anaphor != None:
 					if most_recent_person != None:
 						if anaphor == "PERSON":
-							print("Appending: " + str(most_recent_person[0]))
 							words_in_sentence.append(most_recent_person[0])
 							continue
 						elif anaphor == "PERSON$":
-							print("Appending: " + str(most_recent_person[0]))
 							words_in_sentence.append(most_recent_person[0])
 							words_in_sentence.append("'")
 							words_in_sentence.append("s")
