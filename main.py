@@ -4,6 +4,7 @@ import anaphora
 
 fact_grammar = """
     FACT1: {<NN.*><VB.*><JJ.*>(<CC>?<JJ.*>)}
+    FACT2: {<NN.*><VB.*><CD><NN.*><JJ.*>}
     """
 
 if len(sys.argv) < 2:
