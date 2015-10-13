@@ -23,6 +23,6 @@ pos_tags = map(nltk.pos_tag, text)
 print pos_tags
 
 cp = nltk.RegexpParser(fact_grammar)
-result = cp.parse(pos_tags)
-print result
-result.draw()
+for sentence in pos_tags:
+	result = cp.parse(sentence)
+	print result
