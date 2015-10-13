@@ -4,11 +4,7 @@ prp_thing = {"IT"}
 prp_third_person = {"HE", "HIM", "SHE", "HER", "THEY", "THEM"}
 
 def anaphora(text):
-	text = "John likes Sweden, but he wishes it was warm. If it was warm, he would be very happy."
-	tagged = simple_anaphora(text)
-
-	print(tagged)
-
+	return simple_anaphora(text)
 
 # This function parses a text and attempts to perform anaphora resolution. 
 # It traverses the pos-tagged tree and looks for named entities using NLTK.
