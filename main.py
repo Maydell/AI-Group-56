@@ -1,5 +1,6 @@
 import sys
 import nltk
+import anaphora
 
 fact_grammar = """
     FACT: {<LS|DT><JJ.*>*<NN.*><VB.*>*}
@@ -16,6 +17,9 @@ file object = open(filename, "r")
 text = object.read()
 
 # Call anaphora resolution
+text = anaphora.anaphora(text)
+
+print text
 
 cp = nltk.RegexpParser(fact_grammar)
 result = cp.parse(tokenized)
