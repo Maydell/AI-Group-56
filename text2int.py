@@ -1,7 +1,10 @@
-def convert(text):
-    return convert_text2int(text)
+# A snippet from a StackOverflow comment, CC licensed
+# http://stackoverflow.com/questions/493174/is-there-a-way-to-convert-number-words-to-integers-python
 
-def convert_text2int(textnum, numwords={}):
+def convert(text):
+    return text2int(text)
+
+def text2int(textnum, numwords={}):
     if not numwords:
         units = [
         "zero", "one", "two", "three", "four", "five", "six", "seven", "eight",

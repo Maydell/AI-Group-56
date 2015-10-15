@@ -61,17 +61,21 @@ class HasPropertyWithValueRecord(HasPropertyRecord):
     def __str__(self):
         return "HasPropertyWithValue<" + self.who + " : " + self.what_property + " : " + str(self.how_much) + "(" + self.units + ")>"
 
-class HasRelationToEntity(object):
+class HasRelationToQualifiedEntity(object):
     """A database record meaning someone has a relation to someone else"""
-    def __init__(self, who, verb, how, whom):
-        super(HasRelationToEntity, self).__init__()
+    def __init__(self, who, what_relation, what_entity, qualifications):
+        super(HasRelationToQualifiedEntity, self).__init__()
         self.who = who
-        self.verb = verb
-        self.how = how
-        self.whom = who
+        self.what_relation = what_relation
+        self.qualifications = qualifications
+        self.what_entity = what_entity
 
     def __str__(self):
-        return "HasRelationToEntity<" + self.who + " : " + self.verb + " "  + ", ".join(how) + " " + self.whom + ">"
+        str = "HasRelationToQualifiedEntity<" + self.who + " : " + self.what_relation + " : " + self.what_entity
+        if len(self.qualifications) > 0:
+            str += "(" + ", ".join(self.qualifications) + ")"
+        str += ">"
+        return str
 
 class HasRelationToNoun:
     """A database record meaning someone has a relation to something"""
@@ -87,15 +91,15 @@ class HasRelationToNoun:
 
 class HasRelationToEntities:
     """A database record meaning someone has a relation to multiple entities"""
-    def __init__(self, who, verb, num, whom):
+    def __init__(self, who, what_relation, num, whom):
         super(HasRelationToEntities, self).__init__()
         self.who = who
-        self.verb = verb
+        self.what_relation = what_relation
         self.num = num
         self.whom = whom
 
     def __str__(self):
-        return "HasRelationToEntities<" + self.who + " : " + self.verb + " " + self.num + " " + self.whom + ">"
+        return "HasRelationToEntities<" + self.who + " : " + self.what_relation + " " + self.num + " " + self.whom + ">"
 
 for result in results:
     label = result[0].label()
@@ -131,9 +135,10 @@ for result in results:
             print("Couldn't udnerstand!")
             print(what)
 
-
     if label == "FACT3":
         who = result[0][0][0]
         verb = result[0][1][0]
-        for (word, postag) in result[0][3:-1]:
-            if postag == "JJ":
+        what = result[0][-1][0]
+        adjs = [word for (word,postag) in result[0][2:-1] if postag == "JJ"]
+        record = HasRelationToQualifiedEntity(who, verb, what, adjs)
+        print(record)
