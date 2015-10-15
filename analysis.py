@@ -18,7 +18,7 @@ def analyze(parsed_sent):
                     record = model.HasProperty(who, word)
                     print(record)
         else:
-            print("Couldn't udnerstand!")
+            print("Couldn't understand!")
             print(what)
     
     if label == "FACT2":
@@ -35,7 +35,7 @@ def analyze(parsed_sent):
             record = model.HasQuantifiedProperty(who, adj, f, unit)
             print(record)
         else:
-            print("Couldn't udnerstand!")
+            print("Couldn't understand!")
             print(what)
 
     if label == "FACT3":
