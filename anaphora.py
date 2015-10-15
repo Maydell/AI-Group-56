@@ -78,7 +78,3 @@ def is_anaphor(word):
 	except AttributeError:
 		return None
 	return None
-
-
-if __name__ == "__main__":
-    main()

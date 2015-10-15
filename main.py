@@ -1,6 +1,7 @@
 import sys
 import nltk
 import anaphora
+import text2int
 
 # FACT1: Stephan is tall, gree, blue and yellow
 # FACT2: Stephan is 10 feet tall. Stephan is 40 years old.
@@ -48,9 +49,17 @@ class HasPropertyRecord(object):
         super(HasPropertyRecord, self).__init__()
         self.who = who
         self.what_property = what_property
-
     def __str__(self):
-        return "Fact<" + self.who + " : " + self.what_property + ">"
+        return "HasProperty<" + self.who + " : " + self.what_property + ">"
+
+class HasPropertyWithValueRecord(HasPropertyRecord):
+    """A database record meaning someone has some property with a value"""
+    def __init__(self, who, what_property, how_much, units):
+        super().__init__(who, what_property)
+        self.how_much = how_much
+        self.units = units
+    def __str__(self):
+        return "HasPropertyWithValue<" + self.who + " : " + self.what_property + " : " + str(self.how_much) + "(" + self.units + ")>"
 
 for result in results:
     label = result[0].label()
@@ -61,11 +70,27 @@ for result in results:
         who = result[0][0][0]
         verb = result[0][1][0]
         if verb == "is":
-            print("Found a fact where someone is something!")
             for (word, postag) in result[0][3:]:
                 if postag == "JJ": # Just in case
                     record = HasPropertyRecord(who, word)
                     print(record)
+        else:
+            print("Couldn't udnerstand!")
+            print(what)
+    
+    if label == "FACT2":
+        who = result[0][0][0]
+        verb = result[0][1][0]
+        cardinal = result[0][2][0]
+        unit = result[0][3][0]
+        adj = result[0][4][0]
+        if verb == "is":
+            try:
+                f = float(cardinal)
+            except ValueError:
+                f = text2int.convert(cardinal)
+            record = HasPropertyWithValueRecord(who, adj, f, unit)
+            print(record)
         else:
             print("Couldn't udnerstand!")
             print(what)
