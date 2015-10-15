@@ -3,11 +3,13 @@ import text2int
 
 def analyze(parsed_sent):
 
+    results = []
+
     # Not all attributes will have labels; we want to be resilient
     try:
         label = parsed_sent[0].label()
     except AttributeError:
-        return
+        return results #should be empty
 
     if label == "FACT1":
         who = parsed_sent[0][0][0]
@@ -16,10 +18,7 @@ def analyze(parsed_sent):
             for (word, postag) in parsed_sent[0][3:]:
                 if postag == "JJ": # Just in case
                     record = model.HasProperty(who, word)
-                    print(record)
-        else:
-            print("Couldn't understand!")
-            print(what)
+                    results.append(record)
     
     if label == "FACT2":
         who = parsed_sent[0][0][0]
@@ -33,7 +32,7 @@ def analyze(parsed_sent):
             except ValueError:
                 f = text2int.convert(cardinal)
             record = model.HasQuantifiedProperty(who, adj, f, unit)
-            print(record)
+            results.append(record)
         else:
             print("Couldn't understand!")
             print(what)
@@ -44,4 +43,6 @@ def analyze(parsed_sent):
         what = parsed_sent[0][-1][0]
         adjs = [word for (word,postag) in parsed_sent[0][2:-1] if postag == "JJ"]
         record = model.HasQualifiedRelation(who, verb, what, adjs)
-        print(record)
+        results.append(record)
+
+    return results

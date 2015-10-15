@@ -2,6 +2,7 @@ import sys
 import nltk
 import anaphora
 from analysis import analyze
+import model
 
 # FACT1: Stephan is tall, gree, blue and yellow
 # FACT2: Stephan is 10 feet tall. Stephan is 40 years old.
@@ -33,12 +34,15 @@ tagged_sents = map(nltk.pos_tag, text)
 
 # print(tagged_sents)
 
-# tagged_sents = nltk.corpus.brown.tagged_sents()
-# sents = nltk.corpus.reuters.sents('training/9866') 
+# sents = nltk.corpus.brown.sents()
+# sents = nltk.corpus.reuters.sents() 
 
 cp = nltk.RegexpParser(fact_grammar)
 for sent in sents:
     tagged_sent = nltk.pos_tag(sent)
     parsed_sent = cp.parse(tagged_sent)
-    print("\n> " + " ".join(sent) + "\n")
-    analyze(parsed_sent)
+    results = analyze(parsed_sent)
+    if len(results) > 0:
+        print("\n> " + " ".join(sent) + "\n")
+        for result in results:
+            print(result)
