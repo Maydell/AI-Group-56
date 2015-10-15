@@ -43,16 +43,16 @@ for sentence in pos_tags:
 
 nouns = []
 
-class HasPropertyRecord(object):
+class HasProperty(object):
     """A database record meaning someone has some property"""
     def __init__(self, who, what_property):
-        super(HasPropertyRecord, self).__init__()
+        super(HasProperty, self).__init__()
         self.who = who
         self.what_property = what_property
     def __str__(self):
         return "HasProperty<" + self.who + " : " + self.what_property + ">"
 
-class HasPropertyWithValueRecord(HasPropertyRecord):
+class HasPropertyWithValue(HasProperty):
     """A database record meaning someone has some property with a value"""
     def __init__(self, who, what_property, how_much, units):
         super().__init__(who, what_property)
@@ -112,7 +112,7 @@ for result in results:
         if verb == "is":
             for (word, postag) in result[0][3:]:
                 if postag == "JJ": # Just in case
-                    record = HasPropertyRecord(who, word)
+                    record = HasProperty(who, word)
                     print(record)
         else:
             print("Couldn't udnerstand!")
@@ -129,7 +129,7 @@ for result in results:
                 f = float(cardinal)
             except ValueError:
                 f = text2int.convert(cardinal)
-            record = HasPropertyWithValueRecord(who, adj, f, unit)
+            record = HasPropertyWithValue(who, adj, f, unit)
             print(record)
         else:
             print("Couldn't udnerstand!")
