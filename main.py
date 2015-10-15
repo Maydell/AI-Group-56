@@ -17,7 +17,7 @@ fact_grammar = """
     """
 
 if len(sys.argv) < 2:
-    print "Usage: python main.py <filename>"
+    print("Usage: python main.py <filename>")
     sys.exit(0)
 
 # Read the filename
@@ -30,7 +30,7 @@ text = f.read()
 text = anaphora.anaphora(text)
 pos_tags = map(nltk.pos_tag, text)
 
-# print pos_tags
+# print(pos_tags)
 
 results = []
 
@@ -38,18 +38,18 @@ cp = nltk.RegexpParser(fact_grammar)
 for sentence in pos_tags:
     result = cp.parse(sentence)
     results.append(result)
-    # print result
+    # print(result)
 
 nouns = []
 
 for result in results:
     label = result[0].label()
     noun = result[0][0]
-    print noun[0]
+    print(noun[0])
 
     if label == "FACT1":
-        print result[0][1][0]
-        print result[0][2][0]
+        print(result[0][1][0])
+        print(result[0][2][0])
         for part in result[0][3:]:
             if part[1] == "JJ":
-                print part[0]
+                print(part[0])
