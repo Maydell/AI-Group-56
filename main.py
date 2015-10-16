@@ -17,14 +17,18 @@ grammar1 = """
     FACT3: {<NN.*><VB.*>(<JJ.*>(<CC|,><JJ.*>)*)?<NN.*><\.>}
     FACT1: {<NN.*><VB.*><JJ.*>(<CC|,>?<JJ.*>)*}
     FACT2: {<NN.*><VB.*><CD><NN.*><JJ.*>}
-    FACT4: {<NN.*><VB.*><DT>?<JJ.*>?<NN.*>}
-    FACT5: {<NN.*><VB.*><VB.*>}
+    FACT5: {<NN.*><VB.*><VB.*><.>}
     """
 
 grammar2 = """
     NP: {<NN.*>+}
     2V: {<VB.><VB.>}
     FACT6: {<NP.*><2V><IN|TO><.*>*<\.|,>}
+"""
+
+grammar3 = """
+    NP: {<DT>?<JJ.*>?<NN.*>+}
+    FACT4: {<NP.*><VB.*><NP.*><\.>}
 """
 
 if len(sys.argv) < 2:
@@ -49,9 +53,12 @@ else:
 
     # print(tagged_sents)
 
+print(len(sents))
+
 i = 0
-parsers = [nltk.RegexpParser(grammar1), nltk.RegexpParser(grammar2)]
+parsers = [nltk.RegexpParser(grammar1), nltk.RegexpParser(grammar2), nltk.RegexpParser(grammar3)]
 results = {"FACT1": [], "FACT2": [], "FACT3": [], "FACT6": []}
+
 for sent in sents:
     tagged_sent = nltk.pos_tag(sent)
     for parser in parsers:
@@ -59,8 +66,16 @@ for sent in sents:
         results2 = analyze(parsed_sent)
         for result in results2["FACT1"]:
             results["FACT1"].append(result)
+        for result in results2["FACT2"]:
+            results["FACT2"].append(result)
         for result in results2["FACT3"]:
             results["FACT3"].append(result)
+        for result in results2["FACT4"]:
+            results["FACT4"].append(result)
+        for result in results2["FACT5"]:
+            results["FACT5"].append(result)
+        for result in results2["FACT6"]:
+            results["FACT6"].append(result)
 
 for result in results["FACT1"]:
     conts = contAdj[result.what_property]
@@ -87,6 +102,14 @@ for result in results["FACT2"]:
 
 print("FACT3")
 for result in results["FACT3"]:
+    print(result)
+
+print("FACT4")
+for result in results["FACT4"]:
+    print(result)
+
+print("FACT5")
+for result in results["FACT5"]:
     print(result)
 
 print("FACT6")

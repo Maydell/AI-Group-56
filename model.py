@@ -40,17 +40,16 @@ class QualifiedRelation(object):
         str += ">"
         return str
 
-class RelationToNoun:
+class SpecifiedRelation:
     """A database record meaning someone  a relation to something"""
-    def __init__(self, who, verb, dt, what):
-        super(RelationToNoun, self).__init__()
+    def __init__(self, who, verb, what):
+        super(SpecifiedRelation, self).__init__()
         self.who = who
         self.verb = verb
-        self.dt = dt
         self.what = what
 
     def __str__(self):
-        return "RelationToNoun<" + self.who + " : " + self.verb + " " + self.dt + " " + self.what + ">"
+        return "SpecifiedRelation<" + self.who + " : " + self.verb + " : " + self.what + ">"
 
 class QuantifiedRelation:
     """A database record meaning someone  a relation to multiple entities"""
