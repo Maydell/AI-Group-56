@@ -4,7 +4,7 @@ import text2int
 def analyze(parsed_sent):
 
     # print(parsed_sent)
-    results = {"FACT1": [], "FACT2": [], "FACT3": [], "FACT6": []}
+    results = {"FACT1": [], "FACT2": [], "FACT3": [], "FACT4": [], "FACT5": [], "FACT6": []}
 
     # Not all attributes will have labels; we want to be resilient
     try:

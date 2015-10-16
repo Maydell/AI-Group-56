@@ -57,7 +57,7 @@ print(len(sents))
 
 i = 0
 parsers = [nltk.RegexpParser(grammar1), nltk.RegexpParser(grammar2), nltk.RegexpParser(grammar3)]
-results = {"FACT1": [], "FACT2": [], "FACT3": [], "FACT6": []}
+results = {"FACT1": [], "FACT2": [], "FACT3": [], "FACT4": [], "FACT5": [], "FACT6": []}
 
 for sent in sents:
     tagged_sent = nltk.pos_tag(sent)
