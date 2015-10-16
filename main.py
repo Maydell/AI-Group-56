@@ -50,6 +50,8 @@ else:
 
     # print(tagged_sents)
 
+print(len(sents))
+
 i = 0
 parsers = [nltk.RegexpParser(grammar1), nltk.RegexpParser(grammar2), nltk.RegexpParser(grammar3)]
 for sent in sents:
