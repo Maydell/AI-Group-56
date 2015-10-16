@@ -11,7 +11,7 @@ import model
 # FACT5: Stephan is dying.
 
 fact_grammar = """
-    FACT3: {<NN.*><VB.*>(<JJ.*>(<CC|,><JJ.*>)*)?<NN.*>}
+    FACT3: {<NN.*><VB.*>(<JJ.*>(<CC|,><JJ.*>)*)?<NN.*><\.>}
     FACT1: {<NN.*><VB.*><JJ.*>(<CC|,>?<JJ.*>)*}
     FACT2: {<NN.*><VB.*><CD><NN.*><JJ.*>}
     FACT4: {<NN.*><VB.*><DT>?<JJ.*>?<NN.*>}
@@ -22,20 +22,23 @@ if len(sys.argv) < 2:
     print("Usage: python main.py <filename>")
     sys.exit(0)
 
-# Read the filename
-filename = sys.argv[1]
-f = open(filename, "r")
+sents = []
+if sys.argv[1] == "brown":
+    sents = nltk.corpus.brown.sents()
+elif sys.argv[1] == "reuters":
+    sents = nltk.corpus.reuters.sents() 
+else:
+    # Read the filename
+    filename = sys.argv[1]
+    f = open(filename, "r")
 
-text = f.read()
+    text = f.read()
 
-# Call anaphora resolution
-sents = anaphora.anaphora(text)
-tagged_sents = map(nltk.pos_tag, text)
+    # Call anaphora resolution
+    sents = anaphora.anaphora(text)
+    tagged_sents = map(nltk.pos_tag, text)
 
-# print(tagged_sents)
-
-# sents = nltk.corpus.brown.sents()
-# sents = nltk.corpus.reuters.sents() 
+    # print(tagged_sents)
 
 cp = nltk.RegexpParser(fact_grammar)
 for sent in sents:
@@ -43,6 +46,6 @@ for sent in sents:
     parsed_sent = cp.parse(tagged_sent)
     results = analyze(parsed_sent)
     if len(results) > 0:
-        print("\n> " + " ".join(sent) + "\n")
+        print(" ".join(sent))
         for result in results:
             print(result)
