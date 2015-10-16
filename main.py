@@ -10,13 +10,19 @@ import model
 # FACT4: Stephan killed a cat. Stephan killed Greg. Stephan is a man.
 # FACT5: Stephan is dying.
 
-fact_grammar = """
+grammar1 = """
     FACT3: {<NN.*><VB.*>(<JJ.*>(<CC|,><JJ.*>)*)?<NN.*><\.>}
     FACT1: {<NN.*><VB.*><JJ.*>(<CC|,>?<JJ.*>)*}
     FACT2: {<NN.*><VB.*><CD><NN.*><JJ.*>}
     FACT4: {<NN.*><VB.*><DT>?<JJ.*>?<NN.*>}
     FACT5: {<NN.*><VB.*><VB.*>}
     """
+
+grammar2 = """
+    NP: {<NN.*>+}
+    2V: {<VB.><VB.>}
+    FACT6: {<NP.*><2V><IN|TO><.*>*<\.|,>}
+"""
 
 if len(sys.argv) < 2:
     print("Usage: python main.py <filename>")
@@ -40,12 +46,15 @@ else:
 
     # print(tagged_sents)
 
-cp = nltk.RegexpParser(fact_grammar)
+i = 0
+parsers = [nltk.RegexpParser(grammar1), nltk.RegexpParser(grammar2)]
 for sent in sents:
     tagged_sent = nltk.pos_tag(sent)
-    parsed_sent = cp.parse(tagged_sent)
-    results = analyze(parsed_sent)
-    if len(results) > 0:
-        print(" ".join(sent))
-        for result in results:
-            print(result)
+    for parser in parsers:
+        parsed_sent = parser.parse(tagged_sent)
+        results = analyze(parsed_sent)
+        if len(results) > 0:
+            for result in results:
+                i += 1
+                print(i, end=": ")
+                print(result)

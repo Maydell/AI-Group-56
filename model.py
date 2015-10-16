@@ -14,7 +14,15 @@ class QuantifiedProperty(Property):
         self.how_much = how_much
         self.units = units
     def __str__(self):
-        return "QuantifiedProperty<" + self.who + " : " + self.what_property + " : " + str(self.how_much) + "(" + self.units + ")>"
+        return "QuantifiedProperty<" + self.who + " : " + self.what_property + " (" + str(self.how_much) + " " + self.units + ")>"
+
+class QualifiedProperty(Property):
+    """A database record meaning someone  some property with a value"""
+    def __init__(self, who, what_property, how):
+        super().__init__(who, what_property)
+        self.how = how
+    def __str__(self):
+        return "QualifiedProperty<" + self.who + " : " + self.what_property + "(" + self.how + ")>"
 
 class QualifiedRelation(object):
     """A database record meaning someone  a relation to someone else"""

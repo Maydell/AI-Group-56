@@ -3,6 +3,7 @@ import text2int
 
 def analyze(parsed_sent):
 
+    # print(parsed_sent)
     results = []
 
     # Not all attributes will have labels; we want to be resilient
@@ -43,4 +44,19 @@ def analyze(parsed_sent):
         record = model.QualifiedRelation(who, verb, what, adjs)
         results.append(record)
 
+    if label == "FACT6":
+        who = " ".join(w for (w, p) in parsed_sent[0][0])
+        verbs_property = " ".join(w for (w, p) in parsed_sent[0][1])
+        how = []
+        rem = parsed_sent[0][2:-1]
+        for r in rem:
+            if type(r) is tuple:
+                how.append(r[0])
+            else:
+                for l in r.leaves():
+                    how.append(l[0])
+        how = " ".join(how)
+        record = model.QualifiedProperty(who, verbs_property, how)
+        results.append(record)
+        
     return results
