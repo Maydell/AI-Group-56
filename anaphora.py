@@ -77,4 +77,6 @@ def is_anaphor(word):
 				return "PERSON$"
 	except AttributeError:
 		return None
+	except IndexError:
+		return None
 	return None
