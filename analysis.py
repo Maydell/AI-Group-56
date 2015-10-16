@@ -44,6 +44,23 @@ def analyze(parsed_sent):
         record = model.QualifiedRelation(who, verb, what, adjs)
         results.append(record)
 
+    if label == "FACT4":
+        who = " ".join([word for (word,postag) in parsed_sent[0][0].leaves()])
+        verb = parsed_sent[0][1][0]
+        if type(parsed_sent[0][2]) is tuple:
+            what = parsed_sent[0][2][0]
+        else:
+            what = " ".join([word for (word,postag) in parsed_sent[0][2].leaves()])
+        record = model.SpecifiedRelation(who, verb, what)
+        results.append(record)
+
+    if label == "FACT5":
+        print(parsed_sent)
+        who = parsed_sent[0][0][0]
+        what = parsed_sent[0][-2][0]
+        record = model.Property(who, what)
+        results.append(record)
+
     if label == "FACT6":
         who = " ".join(w for (w, p) in parsed_sent[0][0])
         verbs_property = " ".join(w for (w, p) in parsed_sent[0][1])

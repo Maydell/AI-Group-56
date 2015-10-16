@@ -14,14 +14,18 @@ grammar1 = """
     FACT3: {<NN.*><VB.*>(<JJ.*>(<CC|,><JJ.*>)*)?<NN.*><\.>}
     FACT1: {<NN.*><VB.*><JJ.*>(<CC|,>?<JJ.*>)*}
     FACT2: {<NN.*><VB.*><CD><NN.*><JJ.*>}
-    FACT4: {<NN.*><VB.*><DT>?<JJ.*>?<NN.*>}
-    FACT5: {<NN.*><VB.*><VB.*>}
+    FACT5: {<NN.*><VB.*><VB.*><.>}
     """
 
 grammar2 = """
     NP: {<NN.*>+}
     2V: {<VB.><VB.>}
     FACT6: {<NP.*><2V><IN|TO><.*>*<\.|,>}
+"""
+
+grammar3 = """
+    NP: {<DT>?<JJ.*>?<NN.*>+}
+    FACT4: {<NP.*><VB.*><NP.*><\.>}
 """
 
 if len(sys.argv) < 2:
@@ -47,7 +51,7 @@ else:
     # print(tagged_sents)
 
 i = 0
-parsers = [nltk.RegexpParser(grammar1), nltk.RegexpParser(grammar2)]
+parsers = [nltk.RegexpParser(grammar1), nltk.RegexpParser(grammar2), nltk.RegexpParser(grammar3)]
 for sent in sents:
     tagged_sent = nltk.pos_tag(sent)
     for parser in parsers:
