@@ -12,6 +12,8 @@ def analyze(parsed_sent):
     except AttributeError:
         return results #should be empty
 
+    # Handle different facts and add them to corresponding list
+
     if label == "FACT1":
         who = parsed_sent[0][0][0]
         verb = parsed_sent[0][1][0]
